@@ -6,14 +6,116 @@
     <title>PC Status Dashboard</title>
     <meta http-equiv="refresh" content="30">  <!-- Auto-refresh every 30s -->
     <style>
-        /* [Previous CSS styles remain exactly the same] */
-        .stale {
-            border-left: 5px solid #f39c12;
-            background-color: #fff4e6;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
         }
-        .stale .status {
-            background-color: #fef5e7;
-            color: #e67e22;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        #status-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .pc {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 280px;
+            transition: transform 0.2s;
+        }
+        .pc:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .online {
+            border-left: 5px solid #2ecc71;
+        }
+        .offline {
+            border-left: 5px solid #e74c3c;
+        }
+        .pc-name {
+            color: #3498db;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pc-name:hover {
+            color: #2980b9;
+        }
+        .pc-name::after {
+            content: "▼";
+            font-size: 0.8em;
+            transition: transform 0.3s;
+        }
+        .pc-name.active::after {
+            transform: rotate(180deg);
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .online .status {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        .offline .status {
+            background-color: #fadbd8;
+            color: #c0392b;
+        }
+        .details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .details.show {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .detail-row {
+            margin-bottom: 8px;
+            display: flex;
+        }
+        .detail-label {
+            font-weight: bold;
+            width: 120px;
+            color: #7f8c8d;
+        }
+        .detail-value {
+            flex: 1;
+            word-break: break-all;
+        }
+        .last-update {
+            font-size: 0.9em;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .pc {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -22,9 +124,6 @@
     <div id="status-container"></div>
 
     <script>
-        // Configuration - match this to your cron schedule
-        const MAX_MINUTES_SINCE_UPDATE = 30;  // Set this to 2x your cron interval
-        
         document.addEventListener('DOMContentLoaded', function() {
             fetch('status.json')
                 .then(response => response.json())
@@ -33,41 +132,17 @@
                     container.innerHTML = '';
                     
                     for (const [pcName, info] of Object.entries(data)) {
-                        const now = new Date();
-                        const lastUpdate = new Date(info.last_update);
-                        const minutesSinceUpdate = (now - lastUpdate) / (1000 * 60);
-                        
-                        // Determine status
-                        let status = info.status;
-                        let statusClass = status;
-                        
-                        if (status === 'online' && minutesSinceUpdate > MAX_MINUTES_SINCE_UPDATE) {
-                            status = 'stale';
-                            statusClass = 'stale';
-                        } else if (!info.last_update || minutesSinceUpdate > MAX_MINUTES_SINCE_UPDATE * 2) {
-                            status = 'offline';
-                            statusClass = 'offline';
-                        }
-                        
                         const pcElement = document.createElement('div');
-                        pcElement.className = `pc ${statusClass}`;
+                        pcElement.className = `pc ${info.status}`;
                         
                         pcElement.innerHTML = `
                             <div class="pc-name">${pcName}
-                                <span class="status">${status}</span>
+                                <span class="status">${info.status}</span>
                             </div>
                             <div class="details">
                                 <div class="detail-row">
                                     <span class="detail-label">IP Address:</span>
                                     <span class="detail-value">${info.ip_address || 'N/A'}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Last Contact:</span>
-                                    <span class="detail-value">${lastUpdate.toLocaleString()}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Minutes Since:</span>
-                                    <span class="detail-value">${minutesSinceUpdate.toFixed(1)}</span>
                                 </div>
                                 ${info.cpu_usage ? `
                                 <div class="detail-row">
@@ -79,10 +154,12 @@
                                     <span class="detail-label">Free Memory:</span>
                                     <span class="detail-value">${info.memory_free}</span>
                                 </div>` : ''}
+                                <div class="last-update">
+                                    Last updated: ${new Date(info.last_update).toLocaleString()}
+                                </div>
                             </div>
                         `;
                         
-                        // [Keep the existing click handler code from previous version]
                         const nameElement = pcElement.querySelector('.pc-name');
                         const detailsElement = pcElement.querySelector('.details');
                         
@@ -93,6 +170,14 @@
                         
                         container.appendChild(pcElement);
                     }
+                })
+                .catch(error => {
+                    console.error('Error loading status:', error);
+                    document.getElementById('status-container').innerHTML = `
+                        <div style="color: #e74c3c; text-align: center; padding: 20px;">
+                            Error loading PC status. Please try again later.
+                        </div>
+                    `;
                 });
         });
     </script>
