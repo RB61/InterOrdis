@@ -24,5 +24,12 @@
     "ip_address": "192.168.31.11",
     "cpu_usage": "56.0%",
     "memory_free": "21229.8 MB"
+  },
+  "compute005": {
+    "status": "online",
+    "last_update": "2025-05-03T17:10:39.300377",
+    "ip_address": "192.168.31.15",
+    "cpu_usage": "100.0%",
+    "memory_free": "21595.5 MB"
   }
 }
