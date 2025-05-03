@@ -1,8 +1,10 @@
 {
   "rachid": {
     "status": "online",
-    "last_update": "2025-05-03T19:38:57.108845",
-    "ip_address": "127.0.1.1"
+    "last_update": "2025-05-03T19:43:19.908917",
+    "ip_address": "127.0.1.1",
+    "cpu_usage": "1.1%",
+    "memory_free": "28697.2 MB"
   },
   "hpc2": {
     "status": "online",
