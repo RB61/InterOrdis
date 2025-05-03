@@ -11,5 +11,10 @@
     "status": "online",
     "last_update": "2025-05-03T01:24:06.893101",
     "ip_address": "127.0.1.1"
+  },
+  "hpc2": {
+    "status": "online",
+    "last_update": "2025-05-03T15:53:46.650429",
+    "ip_address": "192.168.1.2"
   }
 }
