@@ -1,34 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PC Status Dashboard</title>
-    <meta http-equiv="refresh" content="10">  <!-- Auto-refresh every 10s -->
+    <meta http-equiv="refresh" content="30">  <!-- Auto-refresh every 30s -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        #status-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .pc {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 280px;
+            transition: transform 0.2s;
+        }
+        .pc:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .online {
+            border-left: 5px solid #2ecc71;
+        }
+        .offline {
+            border-left: 5px solid #e74c3c;
+        }
+        .pc-name {
+            color: #3498db;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pc-name:hover {
+            color: #2980b9;
+        }
+        .pc-name::after {
+            content: "▼";
+            font-size: 0.8em;
+            transition: transform 0.3s;
+        }
+        .pc-name.active::after {
+            transform: rotate(180deg);
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .online .status {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        .offline .status {
+            background-color: #fadbd8;
+            color: #c0392b;
+        }
+        .details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .details.show {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .detail-row {
+            margin-bottom: 8px;
+            display: flex;
+        }
+        .detail-label {
+            font-weight: bold;
+            width: 120px;
+            color: #7f8c8d;
+        }
+        .detail-value {
+            flex: 1;
+            word-break: break-all;
+        }
+        .last-update {
+            font-size: 0.9em;
+            color: #95a5a6;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .pc {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>PC Status Monitor</h1>
+    <h1>PC Status Dashboard</h1>
     <div id="status-container"></div>
-    
+
     <script>
-    fetch('https://raw.githubusercontent.com/RB61/InterOrdis/main/status.json')
-        .then(response => response.json())
-        .then(data => {
-            let html = '';
-            for (const [pc, info] of Object.entries(data)) {
-                html += `<div class="pc ${info.status}">
-                    <h2>${pc}</h2>
-                    <p>Status: ${info.status}</p>
-                    <p>Last update: ${info.last_update}</p>
-                    ${info.ip_address ? `<p>IP: ${info.ip_address}</p>` : ''}
-                </div>`;
-            }
-            document.getElementById('status-container').innerHTML = html;
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('status.json')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('status-container');
+                    container.innerHTML = '';
+                    
+                    for (const [pcName, info] of Object.entries(data)) {
+                        const pcElement = document.createElement('div');
+                        pcElement.className = `pc ${info.status}`;
+                        
+                        pcElement.innerHTML = `
+                            <div class="pc-name">${pcName}
+                                <span class="status">${info.status}</span>
+                            </div>
+                            <div class="details">
+                                <div class="detail-row">
+                                    <span class="detail-label">IP Address:</span>
+                                    <span class="detail-value">${info.ip_address || 'N/A'}</span>
+                                </div>
+                                ${info.cpu_usage ? `
+                                <div class="detail-row">
+                                    <span class="detail-label">CPU Usage:</span>
+                                    <span class="detail-value">${info.cpu_usage}%</span>
+                                </div>` : ''}
+                                ${info.memory_free ? `
+                                <div class="detail-row">
+                                    <span class="detail-label">Free Memory:</span>
+                                    <span class="detail-value">${info.memory_free}</span>
+                                </div>` : ''}
+                                <div class="last-update">
+                                    Last updated: ${new Date(info.last_update).toLocaleString()}
+                                </div>
+                            </div>
+                        `;
+                        
+                        const nameElement = pcElement.querySelector('.pc-name');
+                        const detailsElement = pcElement.querySelector('.details');
+                        
+                        nameElement.addEventListener('click', function() {
+                            this.classList.toggle('active');
+                            detailsElement.classList.toggle('show');
+                        });
+                        
+                        container.appendChild(pcElement);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading status:', error);
+                    document.getElementById('status-container').innerHTML = `
+                        <div style="color: #e74c3c; text-align: center; padding: 20px;">
+                            Error loading PC status. Please try again later.
+                        </div>
+                    `;
+                });
         });
     </script>
-    
-    <style>
-    .pc { border: 1px solid #ccc; padding: 10px; margin: 10px; }
-    .online { background: #cfc; }
-    .offline { background: #fcc; }
-    </style>
 </body>
 </html>
