@@ -1,4 +1,15 @@
 {
-  "pc1": { "status": "offline", "last_update": "" },
-  "pc2": { "status": "offline", "last_update": "" }
+  "pc1": {
+    "status": "offline",
+    "last_update": ""
+  },
+  "pc2": {
+    "status": "offline",
+    "last_update": ""
+  },
+  "rachid": {
+    "status": "online",
+    "last_update": "2025-05-03T01:24:06.893101",
+    "ip_address": "127.0.1.1"
+  }
 }
