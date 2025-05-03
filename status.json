@@ -14,9 +14,9 @@
   },
   "hpc2": {
     "status": "online",
-    "last_update": "2025-05-03T16:30:01.994675",
+    "last_update": "2025-05-03T16:35:02.290476",
     "ip_address": "192.168.1.2",
     "cpu_usage": "51.9%",
-    "memory_free": "29336.9 MB"
+    "memory_free": "28721.0 MB"
   }
 }
