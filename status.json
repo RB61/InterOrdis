@@ -8,10 +8,10 @@
   },
   "hpc2": {
     "status": "online",
-    "last_update": "2025-05-17T16:30:02.349350",
+    "last_update": "2025-05-17T17:15:01.978980",
     "ip_address": "192.168.1.2",
-    "cpu_usage": "2.2%",
-    "memory_free": "30212.7 MB"
+    "cpu_usage": "1.9%",
+    "memory_free": "30209.9 MB"
   },
   "controller1": {
     "status": "online",
