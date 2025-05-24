@@ -22,24 +22,24 @@
   },
   "compute001": {
     "status": "online",
-    "last_update": "2025-05-24T19:15:04.852821",
+    "last_update": "2025-05-24T19:30:03.374717",
     "ip_address": "192.168.31.11",
     "cpu_usage": "100.0%",
-    "memory_free": "17411.0 MB"
+    "memory_free": "17412.8 MB"
   },
   "compute005": {
     "status": "online",
-    "last_update": "2025-05-24T18:45:01.850357",
+    "last_update": "2025-05-24T21:30:01.818630",
     "ip_address": "192.168.31.15",
-    "cpu_usage": "2.2%",
-    "memory_free": "23247.4 MB"
+    "cpu_usage": "2.4%",
+    "memory_free": "23249.5 MB"
   },
   "compute006": {
     "status": "online",
-    "last_update": "2025-05-24T21:30:02.693745",
+    "last_update": "2025-05-24T21:00:01.980550",
     "ip_address": "192.168.31.16",
     "cpu_usage": "2.4%",
-    "memory_free": "23233.9 MB"
+    "memory_free": "23232.0 MB"
   },
   "compute007": {
     "status": "online",
