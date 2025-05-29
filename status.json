@@ -22,10 +22,10 @@
   },
   "compute001": {
     "status": "online",
-    "last_update": "2025-05-29T06:45:02.667157",
+    "last_update": "2025-05-29T07:00:02.475141",
     "ip_address": "192.168.31.11",
     "cpu_usage": "100.0%",
-    "memory_free": "19911.6 MB"
+    "memory_free": "19907.7 MB"
   },
   "compute005": {
     "status": "online",
@@ -36,10 +36,10 @@
   },
   "compute006": {
     "status": "online",
-    "last_update": "2025-05-29T09:00:01.750951",
+    "last_update": "2025-05-29T07:15:03.778593",
     "ip_address": "192.168.31.16",
-    "cpu_usage": "77.8%",
-    "memory_free": "5591.7 MB"
+    "cpu_usage": "95.1%",
+    "memory_free": "216.5 MB"
   },
   "compute007": {
     "status": "online",
