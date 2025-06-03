@@ -22,10 +22,10 @@
   },
   "compute001": {
     "status": "online",
-    "last_update": "2025-06-03T14:30:02.997696",
+    "last_update": "2025-06-03T15:15:03.173051",
     "ip_address": "192.168.31.11",
     "cpu_usage": "100.0%",
-    "memory_free": "20892.1 MB"
+    "memory_free": "20863.5 MB"
   },
   "compute005": {
     "status": "online",
