@@ -15,17 +15,17 @@
   },
   "controller1": {
     "status": "online",
-    "last_update": "2025-06-08T14:00:01.849878",
+    "last_update": "2025-06-08T08:45:01.931075",
     "ip_address": "192.168.31.3",
     "cpu_usage": "1.1%",
-    "memory_free": "46745.2 MB"
+    "memory_free": "46785.7 MB"
   },
   "compute001": {
     "status": "online",
-    "last_update": "2025-06-08T13:45:02.770413",
+    "last_update": "2025-06-08T14:00:02.827839",
     "ip_address": "192.168.31.11",
     "cpu_usage": "100.0%",
-    "memory_free": "20830.1 MB"
+    "memory_free": "20828.9 MB"
   },
   "compute005": {
     "status": "online",
