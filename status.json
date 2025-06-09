@@ -15,9 +15,9 @@
   },
   "controller1": {
     "status": "online",
-    "last_update": "2025-06-08T21:45:01.937131",
+    "last_update": "2025-06-09T01:15:01.886908",
     "ip_address": "192.168.31.3",
-    "cpu_usage": "0.9%",
+    "cpu_usage": "1.1%",
     "memory_free": "46763.3 MB"
   },
   "compute001": {
