@@ -43,9 +43,9 @@
   },
   "compute007": {
     "status": "online",
-    "last_update": "2025-06-30T18:30:02.920853",
+    "last_update": "2025-06-30T20:30:01.846760",
     "ip_address": "192.168.31.17",
-    "cpu_usage": "1.1%",
+    "cpu_usage": "2.3%",
     "memory_free": "23226.7 MB"
   }
 }
