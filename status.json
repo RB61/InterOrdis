@@ -15,10 +15,10 @@
   },
   "controller1": {
     "status": "online",
-    "last_update": "2025-07-08T21:00:02.396024",
+    "last_update": "2025-07-08T23:30:01.817818",
     "ip_address": "192.168.31.3",
-    "cpu_usage": "0.9%",
-    "memory_free": "46369.5 MB"
+    "cpu_usage": "1.2%",
+    "memory_free": "46366.2 MB"
   },
   "compute001": {
     "status": "online",
